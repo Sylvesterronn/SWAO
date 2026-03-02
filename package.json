@@ -13,14 +13,20 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "mongoose": "^9.1.5"
+    "mongoose": "^9.1.5",
+    "pg": "^8.19.0",
+    "prisma": "^7.4.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@tsconfig/node24": "^24.0.4",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.10",
+    "@types/pg": "^8.18.0",
     "eslint": "^9.39.2",
     "globals": "^16.0.0",
     "tsx": "^4.21.0",
@@ -28,4 +34,3 @@
     "typescript-eslint": "^8.53.1"
   }
 }
-
