@@ -1,0 +1,113 @@
+[
+  {
+    "eventName": "Dune: Part Three",
+    "category": "cinema",
+    "venue": "CinemaxX Aarhus",
+    "eventDate": "2026-03-10T19:00:00.000Z",
+    "price": 120,
+    "currency": "DKK",
+    "seat": "C7",
+    "status": "available",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "Dune: Part Three",
+    "category": "cinema",
+    "venue": "CinemaxX Aarhus",
+    "eventDate": "2026-03-10T19:00:00.000Z",
+    "price": 120,
+    "currency": "DKK",
+    "seat": "C8",
+    "status": "sold",
+    "purchasedBy": "alice@example.com"
+  },
+  {
+    "eventName": "Metallica World Tour",
+    "category": "concert",
+    "venue": "Royal Arena Copenhagen",
+    "eventDate": "2026-04-22T20:00:00.000Z",
+    "price": 850,
+    "currency": "DKK",
+    "seat": "Floor GA",
+    "status": "available",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "Metallica World Tour",
+    "category": "concert",
+    "venue": "Royal Arena Copenhagen",
+    "eventDate": "2026-04-22T20:00:00.000Z",
+    "price": 850,
+    "currency": "DKK",
+    "seat": "Block 101 Row 5",
+    "status": "reserved",
+    "purchasedBy": "bob@example.com"
+  },
+  {
+    "eventName": "Swan Lake",
+    "category": "theatre",
+    "venue": "Aarhus Theatre",
+    "eventDate": "2026-03-28T18:30:00.000Z",
+    "price": 350,
+    "currency": "DKK",
+    "seat": "Row D Seat 12",
+    "status": "available",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "Swan Lake",
+    "category": "theatre",
+    "venue": "Aarhus Theatre",
+    "eventDate": "2026-03-28T18:30:00.000Z",
+    "price": 350,
+    "currency": "DKK",
+    "seat": "Row D Seat 13",
+    "status": "sold",
+    "purchasedBy": "charlie@example.com"
+  },
+  {
+    "eventName": "FC Midtjylland vs Brøndby IF",
+    "category": "sport",
+    "venue": "MCH Arena Herning",
+    "eventDate": "2026-03-15T15:00:00.000Z",
+    "price": 200,
+    "currency": "DKK",
+    "seat": "Stand B Row 10",
+    "status": "available",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "FC Midtjylland vs Brøndby IF",
+    "category": "sport",
+    "venue": "MCH Arena Herning",
+    "eventDate": "2026-03-15T15:00:00.000Z",
+    "price": 200,
+    "currency": "DKK",
+    "seat": "Stand B Row 11",
+    "status": "cancelled",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "The Grand Illusion",
+    "category": "cinema",
+    "venue": "Øst for Paradis Aarhus",
+    "eventDate": "2026-03-20T20:30:00.000Z",
+    "price": 95,
+    "currency": "DKK",
+    "seat": "B4",
+    "status": "available",
+    "purchasedBy": null
+  },
+  {
+    "eventName": "Comedy Night with Anders Matthesen",
+    "category": "other",
+    "venue": "Musikhuset Aarhus",
+    "eventDate": "2026-05-01T21:00:00.000Z",
+    "price": 299,
+    "currency": "DKK",
+    "seat": "Row F Seat 22",
+    "status": "available",
+    "purchasedBy": null
+  }
+]
+
