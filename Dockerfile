@@ -3,13 +3,12 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+COPY prisma.config.ts ./
 COPY prisma prisma
 COPY src src
 COPY data data
-COPY .env .env
 
-RUN npx prisma generate
-RUN npx prisma migrate deploy
+RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+CMD npx prisma migrate deploy && npm run dev
