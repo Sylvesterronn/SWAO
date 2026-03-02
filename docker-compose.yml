@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: SWAO-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=swao
+      - POSTGRES_USER=swao_user
+      - POSTGRES_PASSWORD=AGF123
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: SWAO-pgadmin
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@swao.com
+      - PGADMIN_DEFAULT_PASSWORD=AGF123
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  app:
+    build: .
+    container_name: Ticket_app
+    restart: unless-stopped
+    networks:
+      - backend
+    ports:
+      - "3000:3000"
+
+networks:
+  backend: {}
+
+volumes:
+  postgres_data:
+  pgadmin_data:
