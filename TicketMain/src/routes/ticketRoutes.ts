@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prisma from "../db/connection.js";
+import { publishMessage } from "../messaging/rabbitmq.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -95,6 +96,7 @@ ticketRoutes.patch("/tickets/:id", async (req, res) => {
       where: { id: Number(req.params.id) },
       data: req.body,
     });
+    await publishMessage("tickets", "ticket.updated", ticket);
     return res.status(200).json(ticket);
   } catch (error) {
     return res.status(500).json({
@@ -104,10 +106,24 @@ ticketRoutes.patch("/tickets/:id", async (req, res) => {
   }
 });
 
+// POST /tickets/rabbitmq-test — test RabbitMQ integration by publishing a test message
+ticketRoutes.post("/tickets/rabbitmq-test", async (req, res) => {
+    try {
+        await publishMessage("tickets", "ticket.test", { message: "Hello, RabbitMQ!" });
+        return res.status(200).json({ message: "Test message published to RabbitMQ." });
+    } catch (error) {
+        return res.status(500).json({
+            error: "Failed to publish test message.",
+            details: (error as Error).message,
+        });
+    }
+});
+
 // DELETE /tickets/:id
 ticketRoutes.delete("/tickets/:id", async (req, res) => {
   try {
     await prisma.ticket.delete({ where: { id: Number(req.params.id) } });
+    await publishMessage("tickets", "ticket.deleted", { id: Number(req.params.id) });
     return res
       .status(200)
       .json({ message: `Ticket ${req.params.id} deleted successfully.` });

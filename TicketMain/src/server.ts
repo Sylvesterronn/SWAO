@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import ticketRoutes from "./routes/ticketRoutes.js";
+import { connectRabbitMQ } from "./messaging/rabbitmq.js";
 
 const hostname = "0.0.0.0";
 const port = 3000;
@@ -24,4 +25,5 @@ app.use((err: Error, req: express.Request, res: express.Response) => {
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
+  connectRabbitMQ();
 });
