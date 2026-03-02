@@ -3,8 +3,10 @@ services:
     image: postgres:17-alpine
     container_name: SWAO-db
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_DB=swao
+      - POSTGRES_USER=swao_user
+      - POSTGRES_PASSWORD=AGF123
     ports:
       - "5432:5432"
     volumes:
@@ -19,8 +21,9 @@ services:
     image: dpage/pgadmin4:latest
     container_name: SWAO-pgadmin
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@swao.com
+      - PGADMIN_DEFAULT_PASSWORD=AGF123
     ports:
       - "5050:80"
     volumes:
