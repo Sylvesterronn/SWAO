@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U swao_user -d swao"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -40,6 +40,8 @@ services:
     build: .
     container_name: Ticket_app
     restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://swao_user:AGF123@postgres:5432/swao
     networks:
       - backend
     ports:
