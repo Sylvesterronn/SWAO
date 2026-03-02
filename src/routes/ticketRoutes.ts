@@ -26,9 +26,9 @@ ticketRoutes.get('/tickets/:id', async (req, res) => {
 });
 
 // PUT /tickets/:id — full update
-/*ticketRoutes.put('/tickets/:id', async (req, res) => {
-    return res.status(200).json(ticket);
-});*/
+ticketRoutes.put('/tickets/:id', async (req, res) => {
+    return res.status(200).json("Not implemented yet!");
+});
 
 // PATCH /tickets/:id — partial update (e.g. mark as sold, assign purchasedBy)
 /*ticketRoutes.patch('/tickets/:id', async (req, res) => {

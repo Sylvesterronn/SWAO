@@ -36,6 +36,15 @@ services:
       postgres:
         condition: service_healthy
 
+  app:
+    build: .
+    container_name: Ticket_app
+    restart: unless-stopped
+    networks:
+      - backend
+    ports:
+      - "3000:3000"
+
 networks:
   backend: {}
 
