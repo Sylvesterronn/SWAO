@@ -1,0 +1,31 @@
+{
+  "name": "swao-ticket-management",
+  "version": "1.0.0",
+  "description": "Cinema & event ticket management system",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "npx tsc",
+    "dev": "npx tsx watch src/server.ts",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.1.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.10",
+    "eslint": "^9.39.2",
+    "globals": "^16.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.1"
+  }
+}
+
