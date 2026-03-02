@@ -9,6 +9,8 @@ services:
       - POSTGRES_PASSWORD=AGF123
     ports:
       - "5432:5432"
+    networks:
+      - backend
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -21,6 +23,8 @@ services:
     image: dpage/pgadmin4:latest
     container_name: SWAO-pgadmin
     restart: unless-stopped
+    networks:
+      - backend
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@swao.com
       - PGADMIN_DEFAULT_PASSWORD=AGF123
@@ -31,6 +35,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+networks:
+  backend: {}
 
 volumes:
   postgres_data:
