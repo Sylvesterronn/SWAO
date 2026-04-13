@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-blaster-app
+  namespace: ticket-blaster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticket-blaster
+  template:
+    metadata:
+      labels:
+        app: ticket-blaster
+    spec:
+      initContainers:
+        - name: prisma-migrate
+          image: uffehandrup/ticket-blaster-image:v1
+          command: ["sh", "-c", "npx prisma migrate deploy"]
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: DATABASE_URL
+              value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)
+      containers:
+        - name: ticket-blaster-app
+          image: uffehandrup/ticket-blaster-image:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: DATABASE_URL
+              value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)
+            - name: RABBITMQ_URL
+              value: amqp://guest:guest@rabbitmq-service:5672
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-blaster-service
+  namespace: ticket-blaster
+spec:
+  selector:
+    app: ticket-blaster
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ticket-blaster-http-route
+  namespace: ticket-blaster
+spec:
+  parentRefs:
+    - name: envoy-gateway
+      namespace: envoy-gateway-system
+      sectionName: http
+  hostnames:
+    - "swwao-courses.orbit.au.dk"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /grp-24/
+      backendRefs:
+        - name: ticket-blaster-service
+          port: 80

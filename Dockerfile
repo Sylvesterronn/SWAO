@@ -9,6 +9,7 @@ COPY src src
 COPY data data
 
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+RUN npm run build
 
 EXPOSE 3000
-CMD npx prisma migrate deploy && npm run dev
+CMD ["node", "dist/server.js"]

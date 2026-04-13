@@ -3,6 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prisma from "../db/connection.js";
+import {
+  publishTicketEvent,
+  TicketRoutingKeys,
+} from "../rabbitmq/ticketExchange.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,6 +67,10 @@ ticketRoutes.get("/tickets", async (req, res) => {
 ticketRoutes.post("/tickets", async (req, res) => {
   try {
     const ticket = await prisma.ticket.create({ data: req.body });
+    await publishTicketEvent(
+      TicketRoutingKeys.CREATED,
+      ticket as unknown as Record<string, unknown>,
+    );
     return res.status(201).json(ticket);
   } catch (error) {
     return res.status(500).json({
@@ -95,6 +103,15 @@ ticketRoutes.patch("/tickets/:id", async (req, res) => {
       where: { id: Number(req.params.id) },
       data: req.body,
     });
+
+    const routingKey = req.body.status
+      ? TicketRoutingKeys.STATUS_CHANGED
+      : TicketRoutingKeys.UPDATED;
+    await publishTicketEvent(
+      routingKey,
+      ticket as unknown as Record<string, unknown>,
+    );
+
     return res.status(200).json(ticket);
   } catch (error) {
     return res.status(500).json({
@@ -108,6 +125,9 @@ ticketRoutes.patch("/tickets/:id", async (req, res) => {
 ticketRoutes.delete("/tickets/:id", async (req, res) => {
   try {
     await prisma.ticket.delete({ where: { id: Number(req.params.id) } });
+    await publishTicketEvent(TicketRoutingKeys.DELETED, {
+      id: Number(req.params.id),
+    });
     return res
       .status(200)
       .json({ message: `Ticket ${req.params.id} deleted successfully.` });
