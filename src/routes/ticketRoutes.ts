@@ -96,6 +96,10 @@ ticketRoutes.get("/tickets/:id", async (req, res) => {
   }
 });
 
+ticketRoutes.get("/hello", async (req, res) => {
+  res.send("Hello World");
+})
+
 // PATCH /tickets/:id — partial update (e.g. mark as sold, assign purchasedBy)
 ticketRoutes.patch("/tickets/:id", async (req, res) => {
   try {
