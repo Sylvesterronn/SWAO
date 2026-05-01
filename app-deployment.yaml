@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: prisma-migrate
-          image: uffehandrup/ticket-blaster-image:v1
+          image: uffehandrup/ticket-blaster-image:v1.2
           command: ["sh", "-c", "npx prisma migrate deploy"]
           env:
             - name: POSTGRES_DB
@@ -35,9 +35,16 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: DATABASE_URL
               value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
       containers:
         - name: ticket-blaster-app
-          image: uffehandrup/ticket-blaster-image:v1
+          image: uffehandrup/ticket-blaster-image:v1.2
           ports:
             - containerPort: 3000
           env:
@@ -62,7 +69,7 @@ spec:
               value: amqp://guest:guest@rabbitmq-service:5672
           resources:
             limits:
-              memory: "128Mi"
+              memory: "500Mi"
               cpu: "500m"
             requests:
               memory: "64Mi"
@@ -100,7 +107,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /grp-24/
+            value: /grp-24
       backendRefs:
         - name: ticket-blaster-service
           port: 80

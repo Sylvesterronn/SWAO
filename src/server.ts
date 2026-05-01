@@ -4,7 +4,7 @@ import ticketRoutes from "./routes/ticketRoutes.js";
 import { setupTicketExchange } from "./rabbitmq/ticketExchange.js";
 import { closeRabbitMQ } from "./rabbitmq/connection.js";
 
-const hostname = "https://swwao-courses.orbit.au.dk";
+const hostname = "https://swwao-courses.orbit.au.dk/grp-24";
 const port = 3000;
 const app = express();
 
@@ -14,7 +14,7 @@ app.get("/ping", (req, res) => {
   res.status(200).json({ message: "pong" });
 });
 
-app.use("/grp-24", ticketRoutes);
+app.use("", ticketRoutes);
 
 // Error handling middleware - must be after all routes
 app.use(
@@ -32,7 +32,7 @@ app.use(
 );
 
 app.listen(port, hostname, async () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server running at ${hostname}:${port}/`);
 
   // Initialize RabbitMQ exchange, queues, and bindings
   try {
